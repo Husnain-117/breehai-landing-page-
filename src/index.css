@@ -122,6 +122,7 @@ All colors MUST be HSL.
 
   html {
     scroll-behavior: smooth;
+    overscroll-behavior: none;
   }
 }
 
@@ -190,7 +191,7 @@ All colors MUST be HSL.
     animation: pulse-wave 0.8s ease-in-out infinite;
   }
 
-  /* Smooth hero background animation */
+  /* Smooth hero background - STATIC VERSION (no animations for performance) */
   .hero-ambient {
     position: absolute;
     inset: 0;
@@ -199,11 +200,9 @@ All colors MUST be HSL.
       radial-gradient(1200px 600px at 10% 20%, hsla(var(--primary), 0.08), transparent 60%),
       radial-gradient(900px 500px at 90% 10%, hsla(var(--primary), 0.06), transparent 60%),
       radial-gradient(700px 500px at 30% 80%, hsla(220 20% 90% / 0.7), transparent 70%);
-    filter: blur(0.5px);
     opacity: 0.9;
-    transform: translateZ(0);
-    will-change: transform, opacity;
-    animation: ambientPan 30s ease-in-out infinite alternate;
+    contain: strict;
+    /* animation REMOVED for performance */
   }
 
   .hero-wave,
@@ -216,8 +215,9 @@ All colors MUST be HSL.
         hsla(244 54% 78% / 0.12) 30%,
         hsla(220 30% 85% / 0.08) 60%,
         transparent 100%);
-    filter: blur(60px);
+    /* blur and animation REMOVED for performance */
     border-radius: 40% 60% 45% 55% / 50% 50% 50% 50%;
+    contain: strict;
   }
 
   .hero-wave-red {
@@ -228,9 +228,9 @@ All colors MUST be HSL.
         hsla(0 84% 60% / 0.12) 0%,
         hsla(0 72% 72% / 0.08) 35%,
         transparent 80%);
-    filter: blur(60px);
+    /* blur and animation REMOVED for performance */
     border-radius: 40% 60% 45% 55% / 50% 50% 50% 50%;
-    animation: waveDriftReverse 22s ease-in-out infinite;
+    contain: strict;
   }
 
   .hero-dots-red {
@@ -239,8 +239,9 @@ All colors MUST be HSL.
     background-image: radial-gradient(circle at 0 0, rgba(239, 68, 68, 0.12) 0, transparent 55%),
       radial-gradient(circle at 100% 100%, rgba(79, 70, 229, 0.15) 0, transparent 55%);
     opacity: 0.6;
-    mix-blend-mode: soft-light;
     pointer-events: none;
+    contain: strict;
+    /* mix-blend-mode REMOVED for performance */
   }
 
   .hero-dots {
@@ -251,19 +252,18 @@ All colors MUST be HSL.
       radial-gradient(circle at 10% 20%, hsla(0 0% 100% / 0.18) 0, transparent 45%),
       radial-gradient(circle at 80% 70%, hsla(0 0% 100% / 0.16) 0, transparent 40%),
       linear-gradient(120deg, hsla(0 0% 100% / 0.08) 0, transparent 40%, hsla(0 0% 100% / 0.06) 80%);
-    background-size: 260% 260%;
-    mix-blend-mode: screen;
     opacity: 0.55;
-    animation: heroDotsDrift 28s ease-in-out infinite alternate;
+    contain: strict;
+    /* animation and mix-blend-mode REMOVED for performance */
   }
 
   .hero-wave {
-    animation: waveDrift 14s ease-in-out infinite;
+    /* animation REMOVED */
   }
 
   .hero-wave-2 {
-    animation: waveDriftReverse 18s ease-in-out infinite;
     transform: scale(0.95) rotate(10deg);
+    /* animation REMOVED */
   }
 
   @keyframes ambientPan {
@@ -342,5 +342,28 @@ All colors MUST be HSL.
 
   .animate-scroll {
     animation: scroll 40s linear infinite;
+  }
+
+  /* Performance: Disable heavy animations for reduced motion preference and mobile */
+  @media (prefers-reduced-motion: reduce) {
+
+    .hero-wave,
+    .hero-wave-2,
+    .hero-wave-red,
+    .hero-ambient,
+    .hero-dots,
+    .hero-dots-red {
+      animation: none !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+
+    .hero-wave,
+    .hero-wave-2,
+    .hero-wave-red {
+      animation-duration: 30s;
+      filter: blur(20px);
+    }
   }
 }

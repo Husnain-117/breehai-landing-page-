@@ -44,6 +44,8 @@ const CaseStudiesSection: FC = () => {
                                 <img
                                     src={logo}
                                     alt="Client Logo"
+                                    loading="lazy"
+                                    decoding="async"
                                     className="h-24 md:h-32 w-auto object-contain brightness-0 invert"
                                 />
                             </div>
@@ -125,7 +127,7 @@ const CaseStudiesSection: FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {/* Step 1 */}
-                    <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 border border-white/40 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group min-h-[280px]">
+                    <div className="bg-white rounded-2xl p-8 border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group min-h-[280px]">
                         <div className="flex justify-between items-start w-full mb-4">
                             <span className="text-[56px] font-bold text-[#00170F]/10 leading-none">01</span>
                             <ChevronRight className="w-5 h-5 text-[#00170F]/20 group-hover:translate-x-1 transition-transform" />
@@ -139,7 +141,7 @@ const CaseStudiesSection: FC = () => {
                     </div>
 
                     {/* Step 2 */}
-                    <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 border border-white/40 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group min-h-[280px]">
+                    <div className="bg-white rounded-2xl p-8 border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group min-h-[280px]">
                         <div className="flex justify-between items-start w-full mb-4">
                             <span className="text-[56px] font-bold text-[#00170F]/10 leading-none">02</span>
                             <ChevronRight className="w-5 h-5 text-[#00170F]/20 group-hover:translate-x-1 transition-transform" />
@@ -153,7 +155,7 @@ const CaseStudiesSection: FC = () => {
                     </div>
 
                     {/* Step 3 */}
-                    <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 border border-white/40 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group min-h-[280px]">
+                    <div className="bg-white rounded-2xl p-8 border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group min-h-[280px]">
                         <div className="flex justify-between items-start w-full mb-4">
                             <span className="text-[56px] font-bold text-[#00170F]/10 leading-none">03</span>
                             <ChevronRight className="w-5 h-5 text-[#00170F]/20 group-hover:translate-x-1 transition-transform" />

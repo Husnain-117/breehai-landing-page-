@@ -3,14 +3,6 @@ import { FC } from "react";
 const MissionSection: FC = () => {
     return (
         <div className="relative py-8 md:py-12 overflow-hidden bg-transparent">
-            {/* Background circles */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="absolute w-[200px] h-[200px] border border-black/20 rounded-full" />
-                <div className="absolute w-[400px] h-[400px] border border-black/15 rounded-full" />
-                <div className="absolute w-[600px] h-[600px] border border-black/10 rounded-full" />
-                <div className="absolute w-[800px] h-[800px] border border-black/5 rounded-full" />
-                <div className="absolute w-[1000px] h-[1000px] border border-black/[0.02] rounded-full" />
-            </div>
 
             <div className="container relative z-10 mx-auto px-4 text-center">
                 {/* Badge */}
@@ -49,11 +41,13 @@ const MissionSection: FC = () => {
             </div>
 
             {/* Floating Persons - Bottom Left */}
-            <div className="absolute left-[5%] md:left-[18%] bottom-[8%] md:bottom-[12%] w-16 h-16 md:w-24 md:h-24 z-20 animate-float pointer-events-none">
+            <div className="absolute left-[5%] md:left-[18%] bottom-[8%] md:bottom-[12%] w-16 h-16 md:w-24 md:h-24 z-20 pointer-events-none">
                 <div className="relative w-full h-full p-1.5 md:p-2.5 border border-gray-100 rounded-full bg-white shadow-xl">
                     <img
                         src="/receptionist_purple_1.png"
                         alt="Dental Specialist"
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full rounded-full object-cover"
                     />
                     {/* Inner circle effect */}
@@ -62,11 +56,13 @@ const MissionSection: FC = () => {
             </div>
 
             {/* Floating Persons - Top Right */}
-            <div className="absolute right-[5%] md:right-[20%] top-[6%] md:top-[8%] w-16 h-16 md:w-24 md:h-24 z-20 animate-float pointer-events-none [animation-delay:1.5s]">
+            <div className="absolute right-[5%] md:right-[20%] top-[6%] md:top-[8%] w-16 h-16 md:w-24 md:h-24 z-20 pointer-events-none">
                 <div className="relative w-full h-full p-1.5 md:p-2.5 border border-gray-100 rounded-full bg-white shadow-xl">
                     <img
                         src="/receptionist_purple_2.png"
                         alt="Dental Care Team"
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full rounded-full object-cover"
                     />
                     {/* Inner circle effect */}

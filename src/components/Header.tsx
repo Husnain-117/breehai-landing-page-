@@ -50,17 +50,17 @@ const Header = ({ onBookDemo }: HeaderProps) => {
   };
 
   return (
-    <nav className="fixed top-2.5 left-0 right-0 z-50">
+    <nav className="fixed top-2.5 left-0 right-0 z-50 will-change-transform">
       <div className="container mx-auto px-4 md:px-6 py-3">
-        <div className="flex items-center justify-between rounded-2xl border bg-white/70 dark:bg-background/70 backdrop-blur-xl shadow-sm px-4 md:px-6 py-3">
+        <div className="flex items-center justify-between rounded-2xl border border-white/20 bg-[#6366f1]/90 backdrop-blur-md shadow-xl px-4 md:px-6 py-3">
           <div
-            className="text-2xl font-bold tracking-tight cursor-pointer transition-transform duration-200 hover:scale-[1.02]"
+            className="text-2xl font-bold tracking-tight cursor-pointer transition-transform duration-200 hover:scale-[1.02] text-white"
             onClick={() => {
               navigate("/");
               scrollToSection("hero");
             }}
           >
-            Breeh <span className="text-primary">AI</span>
+            Breeh <span className="font-extrabold text-white">AI</span>
           </div>
 
           {/* Desktop nav */}
@@ -77,14 +77,14 @@ const Header = ({ onBookDemo }: HeaderProps) => {
           <div className="hidden md:flex items-center gap-5">
             <Button
               variant="outline"
-              className="hidden md:inline-flex rounded-full px-4 py-2 text-sm font-medium border-border shadow-sm hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 bg-white/80 text-foreground hover:!bg-foreground/5 hover:!text-foreground"
+              className="hidden md:inline-flex rounded-full px-4 py-2 text-sm font-medium border-white/20 shadow-sm hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 bg-transparent text-white hover:!bg-white/10 hover:!text-white"
               onClick={() => scrollToSection("faq")}
             >
               FAQ
             </Button>
             <Button
               onClick={onBookDemo}
-              className="rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-0.5"
+              className="rounded-full bg-white text-primary hover:bg-white/90 shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-0.5 font-bold"
             >
               BOOK DEMO
             </Button>

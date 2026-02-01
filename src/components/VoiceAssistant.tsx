@@ -1,10 +1,8 @@
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
 import { useConversation } from "@elevenlabs/react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Mic, MicOff, PhoneOff, Activity } from "lucide-react";
+import { Mic, MicOff, PhoneOff, X } from "lucide-react";
 
 export type VoiceAssistantHandle = {
   startCall: () => Promise<void>;
@@ -12,13 +10,6 @@ export type VoiceAssistantHandle = {
   getStatus: () => string;
   open: () => void;
   close: () => void;
-};
-
-type MessageItem = {
-  id: string;
-  speaker: "You" | "AI" | string;
-  text: string;
-  t: number;
 };
 
 interface VoiceAssistantProps {
@@ -30,47 +21,15 @@ const VoiceAssistant = forwardRef<VoiceAssistantHandle, VoiceAssistantProps>(({ 
   const [internalOpen, setInternalOpen] = useState(false);
   const open = openProp ?? internalOpen;
   const setOpen = onOpenChange ?? setInternalOpen;
-
   const [micMuted, setMicMuted] = useState(false);
-  const [messages, setMessages] = useState<MessageItem[]>([]);
 
   const conversation = useConversation({
     micMuted,
-    onConnect: () => {
-      // eslint-disable-next-line no-console
-      console.log("Connected to dental receptionist");
-    },
-    onDisconnect: () => {
-      // eslint-disable-next-line no-console
-      console.log("Disconnected from dental receptionist");
-    },
-    onMessage: (message) => {
-      // Try to normalize AI/user transcript depending on payload shape
-      // ElevenLabs may send structured objects or strings
-      let speaker: MessageItem["speaker"] = "AI";
-      let text = "";
-      if (typeof message === "string") {
-        text = message;
-      } else if (message && typeof message === "object") {
-        const m: any = message;
-        speaker = (m.speaker || m.role || m.author || m.from || "AI") as MessageItem["speaker"];
-        text = (m.text || m.content || m.message || m.transcript || "").toString();
-        if (!text && typeof m.toString === "function") text = m.toString();
-      }
-      if (!text) return;
-      setMessages((prev) => [
-        ...prev,
-        { id: `${Date.now()}-${prev.length}`, speaker, text, t: Date.now() },
-      ]);
-    },
+    onConnect: () => console.log("Connected to dental receptionist"),
+    onDisconnect: () => console.log("Disconnected"),
     onError: (error) => {
-      // eslint-disable-next-line no-console
       console.error("VoiceAssistant error:", error);
-      const errorMessage =
-        typeof error === "string"
-          ? error
-          : (error as any)?.message ?? String(error);
-      alert("Connection error: " + errorMessage);
+      alert("Connection error: " + (typeof error === "string" ? error : "Unknown error"));
     },
   });
 
@@ -79,7 +38,6 @@ const VoiceAssistant = forwardRef<VoiceAssistantHandle, VoiceAssistantProps>(({ 
       await navigator.mediaDevices.getUserMedia({ audio: true });
       return true;
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error("Microphone permission denied:", err);
       alert("Please allow microphone access to talk with our AI receptionist");
       return false;
@@ -92,11 +50,10 @@ const VoiceAssistant = forwardRef<VoiceAssistantHandle, VoiceAssistantProps>(({ 
     if (!allowed) return;
     try {
       await conversation.startSession({
-        agentId: import.meta.env.VITE_ELEVENLABS_AGENT_ID,
+        agentId: import.meta.env.VITE_ELEVENLABS_AGENT_ID, // Ensure this env var is set
         connectionType: "webrtc",
       });
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error("Failed to start conversation:", e);
       alert("Could not start the conversation. Please try again.");
     }
@@ -106,12 +63,11 @@ const VoiceAssistant = forwardRef<VoiceAssistantHandle, VoiceAssistantProps>(({ 
     try {
       await conversation.endSession();
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error("Failed to end conversation:", e);
     }
   }, [conversation]);
 
-  // Auto start when dialog opens
+  // Auto start/stop based on open state
   useEffect(() => {
     if (open) {
       startCall().catch(() => undefined);
@@ -119,22 +75,10 @@ const VoiceAssistant = forwardRef<VoiceAssistantHandle, VoiceAssistantProps>(({ 
       if (conversation.status === "connected") {
         conversation.endSession().catch(() => undefined);
       }
-      // reset soft state between sessions
-      setMessages([]);
       setMicMuted(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (conversation.status === "connected") {
-        conversation.endSession().catch(() => undefined);
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useImperativeHandle(ref, () => ({
     startCall: async () => {
@@ -150,60 +94,60 @@ const VoiceAssistant = forwardRef<VoiceAssistantHandle, VoiceAssistantProps>(({ 
     close: () => setOpen(false),
   }));
 
+  const isConnected = conversation.status === "connected";
+  const isSpeaking = conversation.isSpeaking;
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-w-2xl p-0 overflow-hidden">
-        <div className="border-b px-5 py-4 flex items-center justify-between bg-white/70 dark:bg-background/70 backdrop-blur">
-          <DialogHeader className="p-0">
-            <DialogTitle className="text-xl font-bold">Talk to breeh</DialogTitle>
-          </DialogHeader>
-          <div className="flex items-center gap-2">
-            {conversation.isSpeaking && (
-              <span className="inline-flex items-center gap-1 text-primary text-sm font-medium">
-                <Activity className="w-4 h-4" /> Speaking
-              </span>
+      <DialogContent className="max-w-sm p-6 overflow-hidden bg-white/95 backdrop-blur-xl border-none shadow-2xl rounded-3xl">
+        <div className="flex flex-col items-center justify-center space-y-8 py-4">
+
+          {/* Status Header */}
+          <div className="text-center space-y-1">
+            <h3 className="text-xl font-bold text-gray-900">Breeh AI</h3>
+            <p className="text-sm font-medium text-primary/80 uppercase tracking-wider">
+              {conversation.status === "connecting" ? "Connecting..." : isConnected ? "Listening" : "Disconnecting..."}
+            </p>
+          </div>
+
+          {/* Microphone Visualization */}
+          <div className="relative flex items-center justify-center w-32 h-32">
+            {/* Pulsing Rings (only when connected) - CSS based */}
+            {isConnected && (
+              <>
+                <div className={`absolute w-full h-full rounded-full bg-primary/20 ${isSpeaking ? "scale-110 opacity-30" : "scale-100 opacity-10"} transition-all duration-300 ease-in-out`} />
+                <div className={`absolute w-full h-full rounded-full bg-primary/10 ${isSpeaking ? "scale-125 opacity-20" : "scale-100 opacity-5"} transition-all duration-500 ease-in-out delay-75`} />
+              </>
             )}
-            <Badge variant={conversation.status === "connected" ? "default" : "secondary"} className="rounded-full">
-              {conversation.status === "connected" ? "Connected" : conversation.status === "connecting" ? "Connecting" : "Disconnected"}
-            </Badge>
-          </div>
-        </div>
 
-        <div className="px-5 pt-4 pb-3">
-          <ScrollArea className="h-72 rounded-md border bg-card/60 p-3">
-            <div className="space-y-3">
-              {messages.length === 0 && (
-                <p className="text-sm text-muted-foreground">Say something to get started. Your transcript will appear here.</p>) }
-              {messages.map((m) => (
-                <div key={m.id} className="flex items-start gap-3">
-                  <div className={`mt-1 w-2 h-2 rounded-full ${m.speaker === "You" ? "bg-primary" : "bg-emerald-500"}`} />
-                  <div className="flex-1">
-                    <div className="text-xs text-muted-foreground mb-0.5">{m.speaker}</div>
-                    <div className="text-sm leading-relaxed whitespace-pre-wrap">{m.text}</div>
-                  </div>
-                </div>
-              ))}
+            {/* Main Mic Circle */}
+            <div className={`relative z-10 flex items-center justify-center w-20 h-20 rounded-full transition-all duration-500 ${isConnected ? "bg-gradient-to-br from-primary to-violet-600 shadow-xl shadow-primary/30" : "bg-gray-100"
+              }`}>
+              <Mic className={`w-8 h-8 ${isConnected ? "text-white" : "text-gray-400"}`} />
             </div>
-          </ScrollArea>
-        </div>
+          </div>
 
-        <div className="px-5 pb-5 pt-3 flex items-center justify-between gap-3">
-          <div className="text-xs text-muted-foreground">
-            Tip: Use a headset for best quality.
-          </div>
-          <div className="flex items-center gap-2">
+          {/* Controls */}
+          <div className="flex items-center gap-4 w-full justify-center">
             <Button
-              variant={micMuted ? "destructive" : "outline"}
-              onClick={() => setMicMuted((v) => !v)}
-              className="gap-2"
+              variant="outline"
+              size="icon"
+              className={`h-12 w-12 rounded-full border-2 ${micMuted ? "bg-red-50 border-red-200 text-red-500 hover:bg-red-100 hover:text-red-600" : "border-gray-100 bg-gray-50 hover:bg-gray-100"}`}
+              onClick={() => setMicMuted(!micMuted)}
             >
-              {micMuted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-              {micMuted ? "Unmute" : "Mute"}
+              {micMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
             </Button>
-            <Button variant="destructive" onClick={() => { endCall(); setOpen(false); }} className="gap-2">
-              <PhoneOff className="w-4 h-4" /> End Call
+
+            <Button
+              variant="destructive"
+              size="icon"
+              className="h-12 w-12 rounded-full shadow-lg hover:shadow-red-500/30 bg-red-500 hover:bg-red-600"
+              onClick={() => { endCall(); setOpen(false); }}
+            >
+              <PhoneOff className="w-5 h-5" />
             </Button>
           </div>
+
         </div>
       </DialogContent>
     </Dialog>

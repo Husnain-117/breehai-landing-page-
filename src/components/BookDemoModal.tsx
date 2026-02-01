@@ -66,25 +66,25 @@ const BookDemoModal = ({ open, onOpenChange }: BookDemoModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-xl p-8 md:p-10">
         <DialogHeader>
-          <div className="text-center space-y-4 mb-6">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary">
+          <div className="text-center space-y-2 mb-6 pt-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">
               Book a demo
             </h2>
-            <div>
-              <h3 className="text-2xl font-bold mb-2">
+            <div className="space-y-1">
+              <h3 className="text-xl font-bold">
                 breeh.<span className="text-primary">Ai</span>
               </h3>
-              <p className="text-lg font-semibold mb-2">Intro & Demo</p>
-              <p className="text-muted-foreground">
+              <p className="text-base font-semibold text-muted-foreground">Intro & Demo</p>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
                 breeh is the leading AI receptionist for dental practices, trusted by thousands of dentists across North America.
               </p>
             </div>
           </div>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
             <Label htmlFor="email">Email*</Label>
             <Input
@@ -133,9 +133,9 @@ const BookDemoModal = ({ open, onOpenChange }: BookDemoModalProps) => {
             />
           </div>
 
-          <Button 
-            type="submit" 
-            size="lg" 
+          <Button
+            type="submit"
+            size="lg"
             className="w-full h-14 text-lg"
             disabled={isSubmitting}
           >
