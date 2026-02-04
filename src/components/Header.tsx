@@ -58,46 +58,60 @@ const Header = ({ onBookDemo }: HeaderProps) => {
       <nav className="fixed top-2.5 left-0 right-0 z-50 will-change-transform">
         <div className="container mx-auto px-4 md:px-6 py-3">
           <div className="flex items-center justify-between rounded-2xl border border-white/20 bg-[#6366f1]/90 backdrop-blur-md shadow-xl px-4 md:px-6 py-3">
-            <div
-              className="text-2xl font-bold tracking-tight cursor-pointer transition-transform duration-200 hover:scale-[1.02] text-white"
-              onClick={() => {
-                navigate("/");
-                scrollToSection("hero");
-              }}
-            >
-              Breeh <span className="font-extrabold text-white">AI</span>
-            </div>
+            {/* Left side - Logo + Resources */}
+            <div className="flex items-center gap-6">
+              <div
+                className="text-2xl font-bold tracking-tight cursor-pointer transition-transform duration-200 hover:scale-[1.02] text-white"
+                onClick={() => {
+                  navigate("/");
+                  scrollToSection("hero");
+                }}
+              >
+                Breeh <span className="font-extrabold text-white">AI</span>
+              </div>
 
-            {/* Desktop nav */}
-            <div className="hidden md:flex items-center gap-4">
-              <NavigationMenu>
-                <NavigationMenuList className="space-x-2">
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent text-white hover:bg-white/10 hover:text-white focus:bg-white/10 focus:text-white data-[active]:bg-white/10 data-[state=open]:bg-white/10">Resources</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid gap-3 p-4 w-[400px] bg-white rounded-xl shadow-xl">
-                        <li className="row-span-3">
-                          <a
-                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-indigo-500 to-purple-600 p-6 no-underline outline-none focus:shadow-md cursor-pointer hover:scale-[1.02] transition-transform"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setPlaybookOpen(true);
-                            }}
+              {/* Resources Dropdown - Desktop */}
+              <div className="hidden md:flex">
+                <NavigationMenu>
+                  <NavigationMenuList className="gap-2">
+                    <NavigationMenuItem>
+                      <NavigationMenuTrigger className="bg-transparent text-white hover:text-white/80 focus:text-white data-[state=open]:text-white font-medium tracking-wide px-2 py-1 h-auto border-none shadow-none hover:bg-transparent focus:bg-transparent">
+                        Resources
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <div className="w-[280px] bg-[#4f46e5] rounded-xl shadow-2xl border border-white/20 overflow-hidden">
+                          {/* Featured Item */}
+                          <button
+                            onClick={() => setPlaybookOpen(true)}
+                            className="w-full flex items-center gap-3 px-5 py-4 bg-[#3730a3] hover:bg-[#312e81] transition-all text-left group"
                           >
-                            <BookOpen className="h-6 w-6 text-white" />
-                            <div className="mb-2 mt-4 text-lg font-bold text-white uppercase tracking-wider">
-                              Dentists & DSOs Profit Playbook
-                            </div>
-                            <p className="text-sm leading-tight text-white/90 font-medium">
-                              Get the 9 simple strategies elite practices use to fill their chairs without paid ads.
-                            </p>
-                          </a>
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
+                            <span className="px-2 py-0.5 bg-yellow-400 text-[10px] font-black uppercase tracking-wider text-black rounded">NEW</span>
+                            <span className="text-white font-semibold text-sm">Dental Profit Playbook</span>
+                          </button>
+                        </div>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+
+                    <NavigationMenuItem>
+                      <a href="#case-studies" className="group inline-flex h-auto w-max items-center justify-center rounded-md bg-transparent px-2 py-1 text-sm font-medium tracking-wide text-white transition-colors hover:text-white/80 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                        Case Studies
+                      </a>
+                    </NavigationMenuItem>
+
+                    <NavigationMenuItem>
+                      <a href="/blog" className="group inline-flex h-auto w-max items-center justify-center rounded-md bg-transparent px-2 py-1 text-sm font-medium tracking-wide text-white transition-colors hover:text-white/80 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                        Blog
+                      </a>
+                    </NavigationMenuItem>
+
+                    <NavigationMenuItem>
+                      <a href="/about" className="group inline-flex h-auto w-max items-center justify-center rounded-md bg-transparent px-2 py-1 text-sm font-medium tracking-wide text-white transition-colors hover:text-white/80 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                        About
+                      </a>
+                    </NavigationMenuItem>
+                  </NavigationMenuList>
+                </NavigationMenu>
+              </div>
             </div>
 
             {/* Right-side CTAs */}
@@ -163,8 +177,33 @@ const Header = ({ onBookDemo }: HeaderProps) => {
                 >
                   <span className="font-bold text-primary flex items-center gap-2"><BookOpen className="w-4 h-4" /> Dental Profit Playbook</span>
                 </button>
-                <button
+
+                <a
+                  href="#case-studies"
                   className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-foreground/90 hover:bg-muted/70 transition-colors text-left"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <span>Case Studies</span>
+                </a>
+
+                <a
+                  href="/blog"
+                  className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-foreground/90 hover:bg-muted/70 transition-colors text-left"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <span>Blog</span>
+                </a>
+
+                <a
+                  href="/about"
+                  className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-foreground/90 hover:bg-muted/70 transition-colors text-left"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <span>About</span>
+                </a>
+
+                <button
+                  className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-foreground/90 hover:bg-muted/70 transition-colors text-left border-t border-border/50 pt-4 mt-2"
                   onClick={() => {
                     setMobileOpen(false);
                     scrollToSection("faq");
@@ -173,7 +212,7 @@ const Header = ({ onBookDemo }: HeaderProps) => {
                   <span>FAQ</span>
                 </button>
                 <button
-                  className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-foreground/90 hover:bg-muted/70 transition-colors text-left"
+                  className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold text-primary hover:bg-muted/70 transition-colors text-left"
                   onClick={() => {
                     setMobileOpen(false);
                     onBookDemo?.();

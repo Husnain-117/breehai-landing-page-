@@ -21,7 +21,7 @@ const Hero = ({ onBookDemo }: HeroProps) => {
         />
 
         {/* Premium Radial Gradient Overlay - Spotlight Effect */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#6366f1]/80 via-[#4f46e5]/85 to-[#3730a3]/90 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[rgba(70,73,199,0.8)] via-[rgba(99,102,241,0.85)] to-[rgba(163,161,199,0.9)] backdrop-blur-[1px]" />
 
         {/* Content */}
         <div className="container px-4 md:px-6 relative z-10 text-center">
@@ -58,8 +58,9 @@ const Hero = ({ onBookDemo }: HeroProps) => {
         </div>
       </section>
 
-      {/* Trusted By Section - Below hero on lighter background */}
-      <section className="bg-[#FAFAFA] py-12 md:py-16">
+
+      {/* Trusted By Section */}
+      <section className="bg-transparent py-12 md:py-16">
         <div className="container px-4 md:px-6">
           <TrustedBy />
         </div>

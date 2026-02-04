@@ -88,11 +88,11 @@ const PlaybookModal = ({ open, onOpenChange }: PlaybookModalProps) => {
                 }, 300);
             }
         }}>
-            <DialogContent className="max-w-5xl p-0 overflow-hidden bg-[#1a1033] border-none text-white flex flex-col md:flex-row h-[90vh] md:h-auto md:max-h-[85vh]">
+            <DialogContent className="max-w-5xl p-0 overflow-hidden bg-[#4f46e5] border-none text-white flex flex-col md:flex-row h-[90vh] md:h-auto md:max-h-[85vh]">
 
                 {/* Left Side - Value Proposition */}
-                <div className="w-full md:w-5/12 bg-gradient-to-br from-[#1a1033] to-[#2d1b4e] p-6 md:p-10 flex flex-col justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent opacity-50" />
+                <div className="w-full md:w-5/12 bg-gradient-to-br from-[#3730a3] via-[#4f46e5] to-[#6366f1] p-6 md:p-10 flex flex-col justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent opacity-50" />
 
                     <div className="relative z-10 space-y-6">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20">
