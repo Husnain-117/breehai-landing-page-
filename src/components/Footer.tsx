@@ -29,8 +29,8 @@ const Footer = ({ onBookDemo }: FooterProps) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Brand Column */}
           <div className="space-y-4">
-            <div className="text-2xl font-bold text-white">
-              Breeh <span className="font-extrabold text-white">AI</span>
+            <div className="flex items-center mb-2">
+              <img src="/breeh-logo.jpg" alt="Breeh AI" className="h-12 w-auto rounded-lg" />
             </div>
             <p className="text-sm text-indigo-100 leading-relaxed">
               The #1 AI Dental Receptionist trusted by thousands of dentists across North America to handle calls 24/7 and book appointments seamlessly.

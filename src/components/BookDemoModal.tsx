@@ -112,6 +112,7 @@ const BookDemoModal = ({ open, onOpenChange }: BookDemoModalProps) => {
           <>
             {/* Header */}
             <div className="bg-gradient-to-br from-[#4f46e5] to-[#6366f1] p-6 md:p-8 text-center text-white">
+              <img src="/breeh-logo.jpg" alt="Breeh AI" className="h-12 w-auto rounded-lg mx-auto mb-6 shadow-lg" />
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 border border-white/30 mb-4">
                 <Calendar className="w-4 h-4" />
                 <span className="text-xs font-semibold uppercase tracking-wider">Free Demo</span>
